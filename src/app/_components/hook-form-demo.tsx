@@ -32,12 +32,12 @@ export function HookFormDemo() {
     defaultValues: {
       flipTricks: [
         {
-          name: "Kickflip",
           spin: "360",
+          name: "Kickflip",
         },
         {
-          name: "Heelflip",
           spin: "180",
+          name: "Heelflip",
         },
       ],
     },
@@ -47,7 +47,7 @@ export function HookFormDemo() {
     console.log({ input })
   }
 
-  const { fields, append, remove } = useFieldArray({
+  const { fields, append, move, remove } = useFieldArray({
     control: form.control,
     name: "flipTricks",
   })
@@ -68,7 +68,9 @@ export function HookFormDemo() {
           <div className="space-y-2">
             <Sortable
               value={fields}
-              onValueChange={(value) => form.setValue("flipTricks", value)}
+              onMove={({ activeIndex, overIndex }) =>
+                move(activeIndex, overIndex)
+              }
               overlay={
                 <div className="grid grid-cols-[0.5fr,1fr,auto,auto] items-center gap-2">
                   <Skeleton className="h-8 w-full rounded-sm" />
@@ -84,7 +86,7 @@ export function HookFormDemo() {
                     <div className="grid grid-cols-[0.5fr,1fr,auto,auto] items-center gap-2">
                       <FormField
                         control={form.control}
-                        name={`flipTricks.${index}.name`}
+                        name={`flipTricks.${index}.spin`}
                         render={({ field }) => (
                           <FormItem>
                             <FormControl>
@@ -95,7 +97,7 @@ export function HookFormDemo() {
                       />
                       <FormField
                         control={form.control}
-                        name={`flipTricks.${index}.spin`}
+                        name={`flipTricks.${index}.name`}
                         render={({ field }) => (
                           <FormItem>
                             <FormControl>
