@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import { DragEndEvent } from "@dnd-kit/core"
 import {
   CaretSortIcon,
   ChevronDownIcon,
@@ -32,6 +33,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Input } from "@/components/ui/input"
+import { Skeleton } from "@/components/ui/skeleton"
 import {
   Sortable,
   SortableDragHandle,
@@ -175,6 +177,18 @@ export const columns: ColumnDef<Payment>[] = [
       )
     },
   },
+  {
+    id: "sortable",
+    cell: ({ cell }) => (
+      <SortableItem value={cell.id} asChild>
+        <SortableDragHandle variant="ghost" size="icon" className="size-8">
+          <DragHandleDots2Icon className="size-4" aria-hidden="true" />
+        </SortableDragHandle>
+      </SortableItem>
+    ),
+    enableSorting: false,
+    enableHiding: false,
+  },
 ]
 
 export function DataTableDemo() {
@@ -245,49 +259,42 @@ export function DataTableDemo() {
         </DropdownMenu>
       </div>
       <div className="rounded-md border">
-        <Sortable value={data} onValueChange={setData}>
-          <Table>
-            <TableHeader>
-              {table.getHeaderGroups().map((headerGroup) => (
-                <TableRow key={headerGroup.id}>
-                  {headerGroup.headers.map((header) => {
-                    return (
-                      <TableHead key={header.id}>
-                        {header.isPlaceholder
-                          ? null
-                          : flexRender(
-                              header.column.columnDef.header,
-                              header.getContext()
-                            )}
-                      </TableHead>
-                    )
-                  })}
-                </TableRow>
-              ))}
-            </TableHeader>
-            <TableBody>
+        <Table>
+          <TableHeader>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <TableRow key={headerGroup.id}>
+                {headerGroup.headers.map((header) => {
+                  return (
+                    <TableHead key={header.id}>
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
+                    </TableHead>
+                  )
+                })}
+              </TableRow>
+            ))}
+          </TableHeader>
+          <TableBody>
+            <Sortable value={data} onValueChange={setData}>
               {table.getRowModel().rows?.length ? (
                 table.getRowModel().rows.map((row) => (
-                  <SortableItem key={row.id} id={row.id} asChild>
-                    <TableRow data-state={row.getIsSelected() && "selected"}>
-                      {row.getVisibleCells().map((cell) => (
-                        <TableCell key={cell.id}>
-                          {flexRender(
-                            cell.column.columnDef.cell,
-                            cell.getContext()
-                          )}
-                        </TableCell>
-                      ))}
-                      <SortableDragHandle variant="ghost" size="icon" asChild>
-                        <TableCell>
-                          <DragHandleDots2Icon
-                            className="size-4"
-                            aria-hidden="true"
-                          />
-                        </TableCell>
-                      </SortableDragHandle>
-                    </TableRow>
-                  </SortableItem>
+                  <TableRow
+                    key={row.id}
+                    data-state={row.getIsSelected() && "selected"}
+                  >
+                    {row.getVisibleCells().map((cell) => (
+                      <TableCell key={cell.id}>
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
+                      </TableCell>
+                    ))}
+                  </TableRow>
                 ))
               ) : (
                 <TableRow>
@@ -299,9 +306,9 @@ export function DataTableDemo() {
                   </TableCell>
                 </TableRow>
               )}
-            </TableBody>
-          </Table>
-        </Sortable>
+            </Sortable>
+          </TableBody>
+        </Table>
       </div>
       <div className="flex items-center justify-end space-x-2 py-4">
         <div className="flex-1 text-sm text-muted-foreground">

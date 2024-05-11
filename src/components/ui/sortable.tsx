@@ -8,6 +8,7 @@ import type {
   UniqueIdentifier,
 } from "@dnd-kit/core"
 import {
+  closestCenter,
   defaultDropAnimationSideEffects,
   DndContext,
   DragOverlay,
@@ -27,6 +28,8 @@ import {
   SortableContext,
   sortableKeyboardCoordinates,
   useSortable,
+  verticalListSortingStrategy,
+  type SortableContextProps,
 } from "@dnd-kit/sortable"
 import { CSS } from "@dnd-kit/utilities"
 import { Slot, type SlotProps } from "@radix-ui/react-slot"
@@ -35,11 +38,8 @@ import { composeRefs } from "@/lib/compose-refs"
 import { cn } from "@/lib/utils"
 import { Button, type ButtonProps } from "@/components/ui/button"
 
-interface WithId {
-  id: UniqueIdentifier
-}
-
-interface SortableProps<TData extends WithId> extends DndContextProps {
+interface SortableProps<TData extends { id: UniqueIdentifier }>
+  extends DndContextProps {
   /**
    * An array of data items that the sortable component will render.
    * @example
@@ -69,6 +69,20 @@ interface SortableProps<TData extends WithId> extends DndContextProps {
   onMove?: (event: { activeIndex: number; overIndex: number }) => void
 
   /**
+   * An array of modifiers that will be used to modify the behavior of the sortable component.
+   * @default [restrictToVerticalAxis, restrictToParentElement]
+   * @type Modifier[]
+   */
+  modifiers?: DndContextProps["modifiers"]
+
+  /**
+   * A sorting strategy that will be used to determine the new order of the data items.
+   * @default verticalListSortingStrategy
+   * @type SortableContextProps["strategy"]
+   */
+  strategy?: SortableContextProps["strategy"]
+
+  /**
    * An optional React node that is rendered on top of the sortable component.
    * It can be used to display additional information or controls.
    * @default null
@@ -79,10 +93,12 @@ interface SortableProps<TData extends WithId> extends DndContextProps {
   overlay?: React.ReactNode | null
 }
 
-function Sortable<TData extends WithId>({
+function Sortable<TData extends { id: UniqueIdentifier }>({
   value,
   onValueChange,
+  collisionDetection = closestCenter,
   modifiers = [restrictToVerticalAxis, restrictToParentElement],
+  strategy = verticalListSortingStrategy,
   onMove,
   children,
   overlay,
@@ -106,8 +122,8 @@ function Sortable<TData extends WithId>({
       onDragStart={({ active }) => setActiveId(active.id)}
       onDragEnd={({ active, over }) => {
         if (over && active.id !== over?.id) {
-          const activeIndex = value.findIndex(({ id }) => id === active.id)
-          const overIndex = value.findIndex(({ id }) => id === over.id)
+          const activeIndex = value.findIndex((item) => item.id === active.id)
+          const overIndex = value.findIndex((item) => item.id === over.id)
 
           if (onMove) {
             onMove({ activeIndex, overIndex })
@@ -118,10 +134,15 @@ function Sortable<TData extends WithId>({
         setActiveId(null)
       }}
       onDragCancel={() => setActiveId(null)}
+      collisionDetection={collisionDetection}
       {...props}
     >
-      <SortableContext items={value}>{children}</SortableContext>
-      <SortableOverlay activeId={activeId}>{overlay}</SortableOverlay>
+      <SortableContext items={value} strategy={strategy}>
+        {children}
+      </SortableContext>
+      {overlay ? (
+        <SortableOverlay activeId={activeId}>{overlay}</SortableOverlay>
+      ) : null}
     </DndContext>
   )
 }
@@ -150,7 +171,7 @@ function SortableOverlay({
   return (
     <DragOverlay dropAnimation={dropAnimation} {...props}>
       {activeId ? (
-        <SortableItem id={activeId} asChild>
+        <SortableItem value={activeId} asChild>
           {children}
         </SortableItem>
       ) : null}
@@ -178,20 +199,21 @@ function useSortableItem() {
   return context
 }
 
-interface SortableItemProps extends Omit<SlotProps, "id">, WithId {
+interface SortableItemProps extends SlotProps {
+  value: UniqueIdentifier
   asChild?: boolean
 }
 
 const SortableItem = React.forwardRef<HTMLDivElement, SortableItemProps>(
-  ({ asChild, className, id, ...props }, ref) => {
+  ({ asChild, className, value, ...props }, ref) => {
     const {
       attributes,
-      isDragging,
       listeners,
       setNodeRef,
       transform,
       transition,
-    } = useSortable({ id })
+      isDragging,
+    } = useSortable({ id: value })
 
     const context = React.useMemo(
       () => ({

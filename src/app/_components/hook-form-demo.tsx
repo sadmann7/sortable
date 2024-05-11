@@ -80,7 +80,7 @@ export function HookFormDemo() {
             {fields.map((field, index) => (
               <SortableItem
                 key={field.id}
-                id={field.id}
+                value={field.id}
                 className="py-0.5"
                 asChild
               >
