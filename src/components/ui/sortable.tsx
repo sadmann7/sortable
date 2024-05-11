@@ -77,7 +77,8 @@ interface SortableProps<TData extends { id: UniqueIdentifier }>
 
   /**
    * An array of modifiers that will be used to modify the behavior of the sortable component.
-   * @default [restrictToVerticalAxis, restrictToParentElement]
+   * @default
+   * [restrictToVerticalAxis, restrictToParentElement]
    * @type Modifier[]
    */
   modifiers?: DndContextProps["modifiers"]
