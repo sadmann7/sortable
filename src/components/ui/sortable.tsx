@@ -69,6 +69,13 @@ interface SortableProps<TData extends { id: UniqueIdentifier }>
   onMove?: (event: { activeIndex: number; overIndex: number }) => void
 
   /**
+   * A collision detection strategy that will be used to determine the closest sortable item.
+   * @default closestCenter
+   * @type DndContextProps["collisionDetection"]
+   */
+  collisionDetection?: DndContextProps["collisionDetection"]
+
+  /**
    * An array of modifiers that will be used to modify the behavior of the sortable component.
    * @default [restrictToVerticalAxis, restrictToParentElement]
    * @type Modifier[]
@@ -147,7 +154,7 @@ function Sortable<TData extends { id: UniqueIdentifier }>({
   )
 }
 
-const dropAnimationConfig: DropAnimation = {
+const dropAnimationOpts: DropAnimation = {
   sideEffects: defaultDropAnimationSideEffects({
     styles: {
       active: {
@@ -164,7 +171,7 @@ interface SortableOverlayProps
 
 function SortableOverlay({
   activeId,
-  dropAnimation = dropAnimationConfig,
+  dropAnimation = dropAnimationOpts,
   children,
   ...props
 }: SortableOverlayProps) {
@@ -266,4 +273,4 @@ const SortableDragHandle = React.forwardRef<
 })
 SortableDragHandle.displayName = "SortableDragHandle"
 
-export { Sortable, SortableDragHandle, SortableItem }
+export { Sortable, SortableDragHandle, SortableItem, SortableOverlay }

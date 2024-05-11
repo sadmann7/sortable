@@ -53,106 +53,105 @@ export function HookFormDemo() {
   })
 
   return (
-    <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="flex w-full max-w-4xl flex-col gap-4 rounded-md border p-6"
-      >
-        <div className="space-y-1">
-          <h4>Flip tricks</h4>
-          <p className="text-[0.8rem] text-muted-foreground">
-            Add your favorite flip tricks
-          </p>
-        </div>
-        <Sortable
-          value={fields}
-          onValueChange={(value) => form.setValue("flipTricks", value)}
-          overlay={
-            <div className="grid grid-cols-[0.5fr,1fr,auto,auto] items-center gap-2">
-              <Skeleton className="h-8 w-full rounded-sm" />
-              <Skeleton className="h-8 w-full rounded-sm" />
-              <Skeleton className="size-8 shrink-0 rounded-sm" />
-              <Skeleton className="size-8 shrink-0 rounded-sm" />
-            </div>
-          }
+    <div className="rounded-lg border p-6">
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="flex w-full max-w-4xl flex-col gap-4"
         >
-          <div className="w-full space-y-1.5">
-            {fields.map((field, index) => (
-              <SortableItem
-                key={field.id}
-                value={field.id}
-                className="py-0.5"
-                asChild
-              >
-                <div className="grid grid-cols-[0.5fr,1fr,auto,auto] items-center gap-2">
-                  <FormField
-                    control={form.control}
-                    name={`flipTricks.${index}.name`}
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormControl>
-                          <Input className="h-8" {...field} />
-                        </FormControl>
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name={`flipTricks.${index}.spin`}
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormControl>
-                          <Input className="h-8" {...field} />
-                        </FormControl>
-                      </FormItem>
-                    )}
-                  />
-                  <SortableDragHandle
-                    variant="outline"
-                    size="icon"
-                    className="size-8 shrink-0"
-                  >
-                    <DragHandleDots2Icon
-                      className="size-4"
-                      aria-hidden="true"
-                    />
-                  </SortableDragHandle>
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="icon"
-                    className="size-8 shrink-0"
-                    onClick={() => remove(index)}
-                  >
-                    <TrashIcon
-                      className="size-4 text-destructive"
-                      aria-hidden="true"
-                    />
-                    <span className="sr-only">Remove</span>
-                  </Button>
-                </div>
-              </SortableItem>
-            ))}
+          <div className="space-y-1">
+            <h4>Flip tricks</h4>
+            <p className="text-[0.8rem] text-muted-foreground">
+              Add your favorite flip tricks
+            </p>
           </div>
-        </Sortable>
-        <Button
-          type="button"
-          variant="outline"
-          size="sm"
-          className="w-fit"
-          onClick={() =>
-            append({
-              name: "",
-              spin: "",
-            })
-          }
-        >
-          Add trick
-        </Button>
-        <Button type="submit" className="w-fit">
-          Submit
-        </Button>
-      </form>
-    </Form>
+          <div className="space-y-2">
+            <Sortable
+              value={fields}
+              onValueChange={(value) => form.setValue("flipTricks", value)}
+              overlay={
+                <div className="grid grid-cols-[0.5fr,1fr,auto,auto] items-center gap-2">
+                  <Skeleton className="h-8 w-full rounded-sm" />
+                  <Skeleton className="h-8 w-full rounded-sm" />
+                  <Skeleton className="size-8 shrink-0 rounded-sm" />
+                  <Skeleton className="size-8 shrink-0 rounded-sm" />
+                </div>
+              }
+            >
+              <div className="w-full space-y-2">
+                {fields.map((field, index) => (
+                  <SortableItem key={field.id} value={field.id} asChild>
+                    <div className="grid grid-cols-[0.5fr,1fr,auto,auto] items-center gap-2">
+                      <FormField
+                        control={form.control}
+                        name={`flipTricks.${index}.name`}
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormControl>
+                              <Input className="h-8" {...field} />
+                            </FormControl>
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
+                        name={`flipTricks.${index}.spin`}
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormControl>
+                              <Input className="h-8" {...field} />
+                            </FormControl>
+                          </FormItem>
+                        )}
+                      />
+                      <SortableDragHandle
+                        variant="outline"
+                        size="icon"
+                        className="size-8 shrink-0"
+                      >
+                        <DragHandleDots2Icon
+                          className="size-4"
+                          aria-hidden="true"
+                        />
+                      </SortableDragHandle>
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="icon"
+                        className="size-8 shrink-0"
+                        onClick={() => remove(index)}
+                      >
+                        <TrashIcon
+                          className="size-4 text-destructive"
+                          aria-hidden="true"
+                        />
+                        <span className="sr-only">Remove</span>
+                      </Button>
+                    </div>
+                  </SortableItem>
+                ))}
+              </div>
+            </Sortable>
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              className="w-fit"
+              onClick={() =>
+                append({
+                  name: "",
+                  spin: "",
+                })
+              }
+            >
+              Add trick
+            </Button>
+          </div>
+          <Button type="submit" className="w-fit">
+            Submit
+          </Button>
+        </form>
+      </Form>
+    </div>
   )
 }

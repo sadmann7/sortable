@@ -1,7 +1,6 @@
 "use client"
 
 import * as React from "react"
-import { DragEndEvent } from "@dnd-kit/core"
 import {
   CaretSortIcon,
   ChevronDownIcon,
@@ -150,7 +149,6 @@ export const columns: ColumnDef<Payment>[] = [
   },
   {
     id: "actions",
-    enableHiding: false,
     cell: ({ row }) => {
       const payment = row.original
 
@@ -176,15 +174,15 @@ export const columns: ColumnDef<Payment>[] = [
         </DropdownMenu>
       )
     },
+    enableHiding: false,
+    enableSorting: false,
   },
   {
-    id: "sortable",
-    cell: ({ cell }) => (
-      <SortableItem value={cell.id} asChild>
-        <SortableDragHandle variant="ghost" size="icon" className="size-8">
-          <DragHandleDots2Icon className="size-4" aria-hidden="true" />
-        </SortableDragHandle>
-      </SortableItem>
+    id: "drag",
+    cell: () => (
+      <SortableDragHandle variant="ghost" size="icon" className="size-8">
+        <DragHandleDots2Icon className="size-4" aria-hidden="true" />
+      </SortableDragHandle>
     ),
     enableSorting: false,
     enableHiding: false,
@@ -279,22 +277,36 @@ export function DataTableDemo() {
             ))}
           </TableHeader>
           <TableBody>
-            <Sortable value={data} onValueChange={setData}>
+            <Sortable
+              value={data}
+              onValueChange={setData}
+              overlay={
+                <Table>
+                  <TableBody>
+                    <TableRow>
+                      <Skeleton className="h-12 w-full" />
+                    </TableRow>
+                  </TableBody>
+                </Table>
+              }
+            >
               {table.getRowModel().rows?.length ? (
                 table.getRowModel().rows.map((row) => (
-                  <TableRow
-                    key={row.id}
-                    data-state={row.getIsSelected() && "selected"}
-                  >
-                    {row.getVisibleCells().map((cell) => (
-                      <TableCell key={cell.id}>
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext()
-                        )}
-                      </TableCell>
-                    ))}
-                  </TableRow>
+                  <SortableItem key={row.id} value={row.original.id} asChild>
+                    <TableRow
+                      key={row.id}
+                      data-state={row.getIsSelected() && "selected"}
+                    >
+                      {row.getVisibleCells().map((cell) => (
+                        <TableCell key={cell.id}>
+                          {flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext()
+                          )}
+                        </TableCell>
+                      ))}
+                    </TableRow>
+                  </SortableItem>
                 ))
               ) : (
                 <TableRow>
