@@ -4,7 +4,7 @@ export type SiteConfig = typeof siteConfig
 
 export const siteConfig = {
   name: "Sortable",
-  description: "Sortable component built with dnd kit, shadcn/ui, and radix ui",
+  description: "Sortable component built with shadcn/ui, radix ui, and dnd-kit",
   url:
     env.NODE_ENV === "development"
       ? "http://localhost:3000"
