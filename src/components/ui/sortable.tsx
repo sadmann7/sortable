@@ -19,11 +19,13 @@ import {
   useSensors,
 } from "@dnd-kit/core"
 import {
+  restrictToHorizontalAxis,
   restrictToParentElement,
   restrictToVerticalAxis,
 } from "@dnd-kit/modifiers"
 import {
   arrayMove,
+  horizontalListSortingStrategy,
   SortableContext,
   useSortable,
   verticalListSortingStrategy,
@@ -35,6 +37,21 @@ import { Slot, type SlotProps } from "@radix-ui/react-slot"
 import { composeRefs } from "@/lib/compose-refs"
 import { cn } from "@/lib/utils"
 import { Button, type ButtonProps } from "@/components/ui/button"
+
+const orientationConfig = {
+  vertical: {
+    modifiers: [restrictToVerticalAxis, restrictToParentElement],
+    strategy: verticalListSortingStrategy,
+  },
+  horizontal: {
+    modifiers: [restrictToHorizontalAxis, restrictToParentElement],
+    strategy: horizontalListSortingStrategy,
+  },
+  both: {
+    modifiers: [restrictToParentElement],
+    strategy: undefined,
+  },
+}
 
 interface SortableProps<TData extends { id: UniqueIdentifier }>
   extends DndContextProps {
@@ -97,30 +114,37 @@ interface SortableProps<TData extends { id: UniqueIdentifier }>
    * overlay={<Skeleton className="w-full h-8" />}
    */
   overlay?: React.ReactNode | null
+
+  /**
+   * Specifies the axis for the drag-and-drop operation. It can be "vertical", "horizontal", or "both".
+   * @default "vertical"
+   * @type "vertical" | "horizontal" | "both"
+   */
+  orientation?: "vertical" | "horizontal" | "both"
 }
 
 function Sortable<TData extends { id: UniqueIdentifier }>({
   value,
   onValueChange,
   collisionDetection = closestCenter,
-  modifiers = [restrictToVerticalAxis, restrictToParentElement],
-  strategy = verticalListSortingStrategy,
+  orientation = "vertical",
   onMove,
   children,
   overlay,
   ...props
 }: SortableProps<TData>) {
   const [activeId, setActiveId] = React.useState<UniqueIdentifier | null>(null)
-
   const sensors = useSensors(
-    useSensor(MouseSensor),
-    useSensor(TouchSensor),
-    useSensor(KeyboardSensor)
+    useSensor(MouseSensor, {}),
+    useSensor(TouchSensor, {}),
+    useSensor(KeyboardSensor, {})
   )
+
+  const config = orientationConfig[orientation]
 
   return (
     <DndContext
-      modifiers={modifiers}
+      modifiers={config.modifiers}
       sensors={sensors}
       onDragStart={({ active }) => setActiveId(active.id)}
       onDragEnd={({ active, over }) => {
@@ -140,7 +164,7 @@ function Sortable<TData extends { id: UniqueIdentifier }>({
       collisionDetection={collisionDetection}
       {...props}
     >
-      <SortableContext items={value} strategy={strategy}>
+      <SortableContext items={value} strategy={config.strategy}>
         {children}
       </SortableContext>
       {overlay ? (
@@ -236,9 +260,11 @@ const SortableItem = React.forwardRef<HTMLDivElement, SortableItemProps>(
     return (
       <SortableItemContext.Provider value={context}>
         <Comp
-          className={cn(isDragging && "cursor-grabbing", className)}
+          className={cn({ "cursor-grabbing": isDragging }, className)}
           ref={composeRefs(ref, setNodeRef as React.Ref<HTMLDivElement>)}
           style={style}
+          {...attributes}
+          {...listeners}
           {...props}
         />
       </SortableItemContext.Provider>
