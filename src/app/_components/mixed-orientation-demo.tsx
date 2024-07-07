@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/card"
 import { Sortable, SortableItem } from "@/components/ui/sortable"
 
-export function MixedAxisDemo() {
+export function MixedOrientaionDemo() {
   const [specialTricks, setSpecialTricks] = React.useState(
     dataConfig.speicalTricks
   )

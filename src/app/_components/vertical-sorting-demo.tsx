@@ -32,7 +32,7 @@ const schema = z.object({
 
 type Schema = z.infer<typeof schema>
 
-export function HookFormDemo() {
+export function VerticalSortingDemo() {
   const form = useForm<Schema>({
     resolver: zodResolver(schema),
     defaultValues: {

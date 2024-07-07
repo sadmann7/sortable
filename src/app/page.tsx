@@ -1,13 +1,13 @@
 import { Shell } from "@/components/shell"
 
-import { HookFormDemo } from "./_components/hook-form-demo"
-import { MixedAxisDemo } from "./_components/mixed-axis-demo"
+import { MixedOrientaionDemo } from "./_components/mixed-orientation-demo"
+import { VerticalSortingDemo } from "./_components/vertical-sorting-demo"
 
 export default function IndexPage() {
   return (
     <Shell>
-      <HookFormDemo />
-      <MixedAxisDemo />
+      <VerticalSortingDemo />
+      <MixedOrientaionDemo />
     </Shell>
   )
 }
