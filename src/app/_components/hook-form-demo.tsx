@@ -6,9 +6,15 @@ import { useFieldArray, useForm } from "react-hook-form"
 import { z } from "zod"
 
 import { Button } from "@/components/ui/button"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { Skeleton } from "@/components/ui/skeleton"
 import {
   Sortable,
   SortableDragHandle,
@@ -53,19 +59,32 @@ export function HookFormDemo() {
   })
 
   return (
-    <div className="rounded-lg border p-6">
-      <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="flex w-full max-w-4xl flex-col gap-4"
-        >
-          <div className="space-y-1">
-            <h4>Flip tricks</h4>
-            <p className="text-[0.8rem] text-muted-foreground">
-              Add your favorite flip tricks
-            </p>
+    <Card>
+      <div className="flex flex-col items-center gap-4 sm:flex-row">
+        <CardHeader className="w-full flex-col gap-4 space-y-0 sm:flex-row">
+          <div className="flex flex-1 flex-col gap-1.5">
+            <CardTitle>Vertical sorting</CardTitle>
+            <CardDescription>
+              Sort items in the vertical direction.
+            </CardDescription>
           </div>
-          <div className="space-y-2">
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            className="w-fit"
+            onClick={() => append({ name: "", spin: "" })}
+          >
+            Add trick
+          </Button>
+        </CardHeader>
+      </div>
+      <CardContent>
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="flex w-full flex-col gap-4"
+          >
             <Sortable
               value={fields}
               onMove={({ activeIndex, overIndex }) =>
@@ -73,14 +92,14 @@ export function HookFormDemo() {
               }
               overlay={
                 <div className="grid grid-cols-[0.5fr,1fr,auto,auto] items-center gap-2">
-                  <Skeleton className="h-8 w-full rounded-sm" />
-                  <Skeleton className="h-8 w-full rounded-sm" />
-                  <Skeleton className="size-8 shrink-0 rounded-sm" />
-                  <Skeleton className="size-8 shrink-0 rounded-sm" />
+                  <div className="h-8 w-full rounded-sm bg-primary/10" />
+                  <div className="h-8 w-full rounded-sm bg-primary/10" />
+                  <div className="size-8 shrink-0 rounded-sm bg-primary/10" />
+                  <div className="size-8 shrink-0 rounded-sm bg-primary/10" />
                 </div>
               }
             >
-              <div className="w-full space-y-2">
+              <div className="flex w-full flex-col gap-2">
                 {fields.map((field, index) => (
                   <SortableItem key={field.id} value={field.id} asChild>
                     <div className="grid grid-cols-[0.5fr,1fr,auto,auto] items-center gap-2">
@@ -109,7 +128,7 @@ export function HookFormDemo() {
                       <SortableDragHandle
                         variant="outline"
                         size="icon"
-                        className="size-8 shrink-0"
+                        className="size-8 shrink-0 cursor-grab"
                       >
                         <DragHandleDots2Icon
                           className="size-4"
@@ -134,26 +153,12 @@ export function HookFormDemo() {
                 ))}
               </div>
             </Sortable>
-            <Button
-              type="button"
-              variant="outline"
-              size="sm"
-              className="w-fit"
-              onClick={() =>
-                append({
-                  name: "",
-                  spin: "",
-                })
-              }
-            >
-              Add trick
+            <Button size="sm" className="w-fit">
+              Submit
             </Button>
-          </div>
-          <Button type="submit" className="w-fit">
-            Submit
-          </Button>
-        </form>
-      </Form>
-    </div>
+          </form>
+        </Form>
+      </CardContent>
+    </Card>
   )
 }

@@ -32,7 +32,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Input } from "@/components/ui/input"
-import { Skeleton } from "@/components/ui/skeleton"
 import {
   Sortable,
   SortableDragHandle,
@@ -288,7 +287,7 @@ export function DataTableDemo() {
                 <Table>
                   <TableBody>
                     <TableRow>
-                      <Skeleton className="h-12 w-full" />
+                      <div className="h-12 w-full bg-accent/10" />
                     </TableRow>
                   </TableBody>
                 </Table>

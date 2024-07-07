@@ -1,13 +1,13 @@
 import { Shell } from "@/components/shell"
 
 import { HookFormDemo } from "./_components/hook-form-demo"
-import { Items } from "./_components/items"
+import { MixedAxisDemo } from "./_components/mixed-axis-demo"
 
 export default function IndexPage() {
   return (
     <Shell>
       <HookFormDemo />
-      <Items />
+      <MixedAxisDemo />
     </Shell>
   )
 }

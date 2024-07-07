@@ -17,7 +17,7 @@ export function SiteHeader() {
           </span>
         </Link>
         <nav className="flex w-full items-center gap-4 text-sm">
-          <NavItem href="/">Hook form</NavItem>
+          <NavItem href="/">Overview</NavItem>
           <NavItem href="/data-table">Data table</NavItem>
         </nav>
         <nav className="flex flex-1 items-center md:justify-end">
