@@ -311,7 +311,10 @@ const SortableDragHandle = React.forwardRef<
     <Button
       ref={composeRefs(ref)}
       data-state={isDragging ? "dragging" : undefined}
-      className={cn(className)}
+      className={cn(
+        "cursor-grab data-[state=dragging]:cursor-grabbing",
+        className
+      )}
       {...attributes}
       {...listeners}
       {...props}

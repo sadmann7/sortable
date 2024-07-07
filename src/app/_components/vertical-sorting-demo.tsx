@@ -128,7 +128,7 @@ export function VerticalSortingDemo() {
                       <SortableDragHandle
                         variant="outline"
                         size="icon"
-                        className="size-8 shrink-0 cursor-grab"
+                        className="size-8 shrink-0"
                       >
                         <DragHandleDots2Icon
                           className="size-4"
