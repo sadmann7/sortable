@@ -191,22 +191,28 @@ interface SortableOverlayProps
   activeId?: UniqueIdentifier | null
 }
 
-function SortableOverlay({
-  activeId,
-  dropAnimation = dropAnimationOpts,
-  children,
-  ...props
-}: SortableOverlayProps) {
-  return (
-    <DragOverlay dropAnimation={dropAnimation} {...props}>
-      {activeId ? (
-        <SortableItem value={activeId} asChild>
-          {children}
-        </SortableItem>
-      ) : null}
-    </DragOverlay>
-  )
-}
+const SortableOverlay = React.forwardRef<HTMLDivElement, SortableOverlayProps>(
+  (
+    { activeId, dropAnimation = dropAnimationOpts, children, ...props },
+    ref
+  ) => {
+    return (
+      <DragOverlay dropAnimation={dropAnimation} {...props}>
+        {activeId ? (
+          <SortableItem
+            ref={ref}
+            value={activeId}
+            className="cursor-grabbing"
+            asChild
+          >
+            {children}
+          </SortableItem>
+        ) : null}
+      </DragOverlay>
+    )
+  }
+)
+SortableOverlay.displayName = "SortableOverlay"
 
 interface SortableItemContextProps {
   attributes: React.HTMLAttributes<HTMLElement>
@@ -273,7 +279,7 @@ const SortableItem = React.forwardRef<HTMLDivElement, SortableItemProps>(
       [attributes, listeners, isDragging]
     )
     const style: React.CSSProperties = {
-      opacity: isDragging ? 0.4 : undefined,
+      opacity: isDragging ? 0.5 : 1,
       transform: CSS.Translate.toString(transform),
       transition,
     }
@@ -284,7 +290,11 @@ const SortableItem = React.forwardRef<HTMLDivElement, SortableItemProps>(
       <SortableItemContext.Provider value={context}>
         <Comp
           data-state={isDragging ? "dragging" : undefined}
-          className={cn("data-[state=dragging]:cursor-grabbing", className)}
+          className={cn(
+            "data-[state=dragging]:cursor-grabbing",
+            { "cursor-grab": !isDragging && asTrigger },
+            className
+          )}
           ref={composeRefs(ref, setNodeRef as React.Ref<HTMLDivElement>)}
           style={style}
           {...(asTrigger ? attributes : {})}

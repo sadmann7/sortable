@@ -37,7 +37,7 @@ export function MixedSortingDemo() {
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-4">
             {specialTricks.map((item) => (
               <SortableItem key={item.id} value={item.id} asTrigger asChild>
-                <Card className="flex aspect-video cursor-auto items-center justify-center rounded-md bg-accent hover:bg-accent/80">
+                <Card className="flex aspect-video items-center justify-center rounded-md bg-accent hover:bg-accent/80">
                   <CardHeader className="items-center">
                     <CardTitle>{item.name}</CardTitle>
                     <CardDescription>{item.points} points</CardDescription>
