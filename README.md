@@ -1,6 +1,6 @@
 # [Sortable](https://sortable.sadmn.com)
 
-This is a sortable component built with `shadnc/ui`, `radix ui`, and `dnd-kit`. It is bootstrapped with `create-t3-app`.
+This is a sortable built with `shadnc/ui`, `radix ui`, and `dnd-kit`. It is bootstrapped with `create-t3-app`.
 
 [![Sortable](./public/images/screenshot.png)](https://sortable.sadmn.com)
 
