@@ -1,6 +1,6 @@
 # [Sortable](https://sortable.sadmn.com)
 
-This is a sortable built with `shadnc/ui`, `radix ui`, and `dnd-kit`. It is bootstrapped with `create-t3-app`.
+This is a sortable built with `shadcn/ui`, `radix ui`, and `dnd-kit`. It is bootstrapped with `create-t3-app`.
 
 [![Sortable](./public/images/screenshot.png)](https://sortable.sadmn.com)
 
@@ -14,7 +14,7 @@ This is a sortable built with `shadnc/ui`, `radix ui`, and `dnd-kit`. It is boot
 
 ## Features
 
-- [x] Headless `Sortable` ui primitives built with `shadnc/ui`, `radix ui`, and `dnd-kit`.
+- [x] Headless `Sortable` ui primitives built with `shadcn/ui`, `radix ui`, and `dnd-kit`.
 - [x] Integration with `useFieldArray` of `react-hook-form`, and `tanstack-table`.
 
 ## Running Locally
