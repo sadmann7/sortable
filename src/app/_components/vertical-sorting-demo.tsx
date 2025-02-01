@@ -56,6 +56,7 @@ export function VerticalSortingDemo() {
   const { fields, append, move, remove } = useFieldArray({
     control: form.control,
     name: "flipTricks",
+    keyName: "rhfId",
   })
 
   return (
@@ -86,6 +87,7 @@ export function VerticalSortingDemo() {
             className="flex w-full flex-col gap-4"
           >
             <Sortable
+              keyName="rhfId"
               value={fields}
               onMove={({ activeIndex, overIndex }) =>
                 move(activeIndex, overIndex)
@@ -101,7 +103,7 @@ export function VerticalSortingDemo() {
             >
               <div className="flex w-full flex-col gap-2">
                 {fields.map((field, index) => (
-                  <SortableItem key={field.id} value={field.id} asChild>
+                  <SortableItem key={field.rhfId} value={field.rhfId} asChild>
                     <div className="grid grid-cols-[0.5fr,1fr,auto,auto] items-center gap-2">
                       <FormField
                         control={form.control}
