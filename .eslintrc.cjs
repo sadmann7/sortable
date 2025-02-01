@@ -4,7 +4,11 @@ const config = {
   parserOptions: {
     project: true,
   },
-  plugins: ["@typescript-eslint", "tailwindcss"],
+  plugins: [
+    "@typescript-eslint",
+    "eslint-plugin-react-compiler",
+    "tailwindcss",
+  ],
   extends: [
     "next/core-web-vitals",
     "plugin:@typescript-eslint/recommended-type-checked",
@@ -47,5 +51,5 @@ const config = {
       rootDir: ["./"],
     },
   },
-};
-module.exports = config;
+}
+module.exports = config
