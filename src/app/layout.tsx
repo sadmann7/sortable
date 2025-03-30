@@ -8,7 +8,6 @@ import "@/styles/globals.css";
 
 import type { Metadata, Viewport } from "next";
 
-import { Toaster } from "@/components/ui/sonner";
 import { fontMono, fontSans } from "@/lib/fonts";
 
 export const metadata: Metadata = {
@@ -86,7 +85,6 @@ export default function RootLayout({ children }: React.PropsWithChildren) {
           </div>
           <TailwindIndicator />
         </ThemeProvider>
-        <Toaster />
       </body>
     </html>
   );

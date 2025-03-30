@@ -18,7 +18,11 @@ export function SiteHeader() {
           </span>
         </Link>
         <nav className="flex w-full items-center gap-4 text-sm">
-          <NavItem href="https://diceui.com/docs/components/sortable">
+          <NavItem
+            href="https://diceui.com/docs/components/sortable"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             Docs
           </NavItem>
         </nav>
