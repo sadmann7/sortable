@@ -1,24 +1,26 @@
-import Link from "next/link"
-import { FileIcon, GitHubLogoIcon } from "@radix-ui/react-icons"
+import { File } from "lucide-react";
+import Link from "next/link";
 
-import { siteConfig } from "@/config/site"
-import { Button } from "@/components/ui/button"
-import { ModeToggle } from "@/components/layouts/mode-toggle"
-import { NavItem } from "@/components/layouts/nav-item"
+import { Icons } from "@/components/icons";
+import { ModeToggle } from "@/components/layouts/mode-toggle";
+import { NavItem } from "@/components/layouts/nav-item";
+import { Button } from "@/components/ui/button";
+import { siteConfig } from "@/config/site";
 
 export function SiteHeader() {
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="sticky top-0 z-50 w-full border-border/40 border-b bg-background/95 backdrop-blur-sm supports-backdrop-filter:bg-background/60">
       <div className="container flex h-14 items-center">
         <Link href="/" className="mr-2 flex items-center md:mr-6 md:space-x-2">
-          <FileIcon className="size-4" aria-hidden="true" />
+          <File className="size-4" aria-hidden="true" />
           <span className="hidden font-bold md:inline-block">
             {siteConfig.name}
           </span>
         </Link>
         <nav className="flex w-full items-center gap-4 text-sm">
-          <NavItem href="/">Overview</NavItem>
-          <NavItem href="/data-table">Data table</NavItem>
+          <NavItem href="https://diceui.com/docs/components/sortable">
+            Docs
+          </NavItem>
         </nav>
         <nav className="flex flex-1 items-center md:justify-end">
           <Button variant="ghost" size="icon" className="size-8" asChild>
@@ -28,12 +30,12 @@ export function SiteHeader() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              <GitHubLogoIcon className="size-4" aria-hidden="true" />
+              <Icons.gitHub />
             </Link>
           </Button>
           <ModeToggle />
         </nav>
       </div>
     </header>
-  )
+  );
 }

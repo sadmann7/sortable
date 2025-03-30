@@ -1,10 +1,10 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import Link from "next/link"
-import { useSelectedLayoutSegment } from "next/navigation"
+import Link from "next/link";
+import { useSelectedLayoutSegment } from "next/navigation";
+import type * as React from "react";
 
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
 
 export function NavItem({
   href,
@@ -12,7 +12,7 @@ export function NavItem({
   className,
   ...props
 }: React.ComponentPropsWithRef<typeof Link>) {
-  const segment = useSelectedLayoutSegment()
+  const segment = useSelectedLayoutSegment();
 
   return (
     <Link
@@ -20,11 +20,11 @@ export function NavItem({
       className={cn(
         "text-foreground/60 transition-colors hover:text-foreground",
         href === `/${segment ?? ""}` && "text-foreground",
-        className
+        className,
       )}
       {...props}
     >
       {children}
     </Link>
-  )
+  );
 }
