@@ -7,5 +7,8 @@ export const siteConfig = {
     process.env.NODE_ENV === "development"
       ? "http://localhost:3000"
       : "https://sortable.sadmn.com",
-  links: { github: "https://github.com/sadmann7/sortable" },
+  links: {
+    github: "https://github.com/sadmann7/sortable",
+    docs: "https://github.com/sadmann7/sortable/blob/main/README.md",
+  },
 };
